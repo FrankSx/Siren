@@ -1,0 +1,88 @@
+SIREN POLYGLOT v2.0 - TECHNICAL MANIFEST
+═══════════════════════════════════════════════════════════════════════════════
+Timestamp: 2026-03-25 04:18
+Researcher: frankSx
+Classification: EVOLUTIONARY - Multi-format container confusion
+
+FILE SPECIFICATION:
+───────────────────
+Filename: siren_v2.0.polyglot
+Size: 14,036 bytes
+SHA256: f34e327f29198f2511447b986497c557...
+MD5: [calculated on final package]
+
+STRUCTURE:
+──────────
+[0x0000] fLaC marker (4 bytes)
+[0x0004] STREAMINFO block (38 bytes)
+[0x002A] VORBIS_COMMENT block (1,166 bytes)
+         └─ Adaptive SSML with provider probing
+[0x04B0] PADDING block (8,192 bytes)
+         └─ MP3 frame + CVE-2026-32836 exhaustion vectors
+[0x24B0] APPLICATION block (4,096 bytes)
+         └─ Nested OGG/Opus container
+[0x34B0] Audio frames (ultrasonic carrier)
+
+CAPABILITIES:
+─────────────
+✓ Multi-format ambiguity (FLAC/MP3/OGG)
+✓ Active environment probing
+✓ Provider-specific SSML (Google/AWS/Azure/OpenAI)
+✓ CVE-2026-32836 metadata exhaustion
+✓ Ultrasonic frequency domain (20-22kHz)
+✓ Nested container structure
+✓ Perceptual defense bypass
+
+TARGETS:
+────────
+• Multimodal RAG systems (2026 generation)
+• Voice-enabled AI assistants (Claude Voice, GPT-5o, Gemini 2)
+• Cloud TTS APIs with format auto-detection
+• Vulnerable FLAC parsers (CVE-2026-32836)
+• Ultrasonic-capable voice agents
+
+EVASION:
+────────
+• Survives FLAC metadata stripping (OGG backup)
+• Bypasses single-format validation
+• Confuses libmagic/file(1) detection
+• Avoids WASM signatures (removed from v1.0)
+• Ultrasonic content invisible to human inspection
+
+DIFFERENTIAL FROM v1.0:
+───────────────────────
++ Multi-format vs single-format
++ Adaptive vs static SSML
++ Active probing vs passive
++ CVE integration vs none
++ Ultrasonic vs audible
++ Nested containers vs flat
++ 14KB vs 5KB (more complex)
+
+2026 CONTEXT:
+─────────────
+Developed in response to:
+• CVE-2026-32836 disclosure (March 20)
+• Wave-Echo/Wave-Pitch defenses (2025-2026)
+• Paralinguistic jailbreak research (2026)
+• Multimodal steganography advances (2026)
+• DolphinAttack legacy (ultrasonic vectors)
+
+NOVELTY STATUS:
+───────────────
+As of 2026-03-25 04:18, no prior documentation exists of:
+1. Multi-format audio container polyglots
+2. Adaptive SSML with environment probing
+3. CVE-2026-32836 weaponization in polyglots
+4. Ultrasonic frequency domain container attacks
+5. OGG-in-FLAC nested structures
+
+VERIFICATION:
+─────────────
+Tested against:
+✓ FFmpeg 7.0 (FLAC parsing)
+✓ libFLAC 1.4.3 (metadata extraction)
+✓ Custom extraction tools (v2.0)
+✗ NOT tested against production TTS APIs (requires authorization)
+
+═══════════════════════════════════════════════════════════════════════════════

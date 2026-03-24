@@ -1,0 +1,67 @@
+SIREN POLYGLOT PACKAGE v1.0
+═══════════════════════════════════════════════════════════════════════════════
+Timestamp: 2026-03-24 06:23
+Researcher: frankSx
+Classification: NOVEL - First documented TTS-Audio container polyglot
+
+PACKAGE CONTENTS:
+─────────────────
+1. siren_polyglot_v1.0.flac (5218 bytes)
+   └── The polyglot file - valid FLAC + SSML injection + WASM carrier
+
+2. siren_extracted.wasm (50 bytes)
+   └── Extracted WebAssembly module from padding block
+
+3. siren_extractor.py
+   └── Tool to extract SSML and WASM payloads from SIREN files
+
+4. siren_tts_tester.py
+   └── Testing harness for TTS API providers (Google, AWS, Azure, OpenAI)
+
+5. siren_verify.py
+   └── Verification suite to validate polyglot structure
+
+6. SIREN_DOCUMENTATION.md
+   └── Comprehensive technical documentation
+
+VERIFICATION:
+─────────────
+MD5:    7cf355d5efbb9c20aee3ec2796cb2a59
+SHA256: de43766447d93358dc5c915557f2f8f09b81e2d2fd52889dd7df62cbebaef012
+
+NOVELTY CLAIMS:
+───────────────
+✓ First audio-TTS file format polyglot
+✓ First SSML injection via FLAC metadata (Vorbis comments)
+✓ First WASM smuggling in FLAC padding blocks
+✓ First demonstrated parser differential audio/TTS systems
+✓ First 2026-demonstrated container confusion attack on multimodal AI
+
+TARGET VULNERABILITY CLASS:
+───────────────────────────
+Parser Differential Exploitation in Multimodal AI Systems
+- Audio parsers see: Valid FLAC container (benign)
+- TTS parsers see: SSML markup + executable code (malicious)
+- Security scanners see: Audio file (no signatures)
+
+ATTACK SURFACE:
+───────────────
+• Voice-enabled AI assistants (Claude Voice, GPT-5o, Gemini 2)
+• Multimodal RAG systems with audio ingestion
+• Cloud TTS APIs (Google Cloud, AWS Polly, Azure Speech)
+• Enterprise voice transcription services
+• Audio-based prompt injection vectors
+
+RESEARCH CONTEXT:
+─────────────────
+Built on 2026-03-24 following successful JPEG XL + PDF 2.0 + WASM polyglot.
+Extends container confusion research into audio/TTS boundary.
+No prior academic or industry documentation of this specific vector.
+
+LEGAL:
+──────
+Proof-of-concept for security research only.
+Test only on systems you own or have explicit permission to test.
+Not for malicious use.
+
+═══════════════════════════════════════════════════════════════════════════════
