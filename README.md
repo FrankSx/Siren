@@ -1,4 +1,9 @@
 # Siren
+
+> **v3.0 — 2026-09-23 — CVE-2026-32836 CORRECTION OF RECORD.**
+> v2.0 modeled CVE-2026-32836 as PADDING-block O(n²) recursive parsing, based on the pre-disclosure summary. The full disclosure (dr_libs issue #298, VulnCheck, 2026-03-17) shows the actual bug is an **unchecked `malloc(mimeLength + 1)` / `malloc(descriptionLength + 1)` at dr_flac.h:6750/:6772 in `drflac__read_and_decode_metadata()` — a single ~4 GiB allocation from a 78-byte file, reachable only via `drflac_open_*_with_metadata()` with a non-NULL callback.** See [`v3/`](v3/) for the precise PoC (78-byte minimal reproducer, dual-stage polyglot, vulnerable-target harness), full writeup, and blog post. Fixed upstream in commits fefced4, 4f5a4cd, 663239a. The v2 documentation below is preserved for history.
+
+---
 SIREN POLYGLOT v2.0
 Multi-Format Container Confusion for 2026 Multimodal AI
 
@@ -18,10 +23,10 @@ Libmagic 	Possible MP3 	Secondary format confusion
 Custom TTS tools 	OGG/Opus 	Alternative processing path
 Security scanners 	Benign audio 	No signature matches
 2026 Threat Landscape Integration
-CVE-2026-32836 Exploitation
+CVE-2026-32836 Exploitation (superseded — see v3.0 correction notice above)
 
-    Vulnerability: FLAC metadata exhaustion in dr_libs (March 20, 2026)
-    SIREN v2.0 integration: PADDING blocks contain fake nested headers causing O(n²) parsing
+    Vulnerability: FLAC metadata exhaustion in dr_libs
+    SIREN v2.0 integration: PADDING blocks contain fake nested headers causing O(n²) parsing [INCORRECT MODEL — actual: single unchecked malloc in PICTURE parsing, see v3/]
     Impact: Memory exhaustion in vulnerable TTS preprocessing pipelines
 
 Ultrasonic Frequency Domain (DolphinAttack Legacy)
@@ -60,12 +65,12 @@ Provider-specific payloads:
     PROVIDER_AZURE: <mstts:express-as style="cheerful"> (emotional expression)
     PROVIDER_OPENAI: <emphasis level="strong"> (prosody control)
 
-Layer 3: Exhaustion Padding (CVE-2026-32836)
+Layer 3: Exhaustion Padding (CVE-2026-32836 — see v3.0 correction)
 
     8KB PADDING block (larger than v1.0)
     Embedded MP3 frame headers (ÿû)
     Fake FLAC block headers every 1KB
-    Triggers recursive parsing in vulnerable implementations
+    Note: v2.0 claimed this triggers recursive parsing — the disclosed CVE is actually a single unchecked malloc in PICTURE parsing (dr_flac.h:6750/:6772). Precise weaponization in v3/.
 
 Layer 4: Nested OGG Container
 
@@ -97,8 +102,8 @@ Vector 2: TTS Pipeline Confusion
 Vector 3: Metadata Exhaustion DoS
 
     Target: Vulnerable FLAC parser (CVE-2026-32836)
-    Trigger: Recursive block header parsing
-    Result: Memory exhaustion, service degradation
+    Trigger (corrected in v3.0): PICTURE block mimeLength/descriptionLength → unchecked ~4 GiB malloc per field before bounds check
+    Result: Memory exhaustion, service degradation, OOM-kill of ingest workers
     Side effect: Security scanner timeout/bypass
 
 Vector 4: Ultrasonic Command Injection
@@ -127,6 +132,7 @@ Files in Package
     siren_v2_extractor.py - Multi-layer extraction tool
     siren_v2_documentation.md - This file
     SIREN_v2_MANIFEST.txt - Technical specifications
+    v3/ - SIREN v3.0: precise CVE-2026-32836 PoC, harness, docs, blog post
 
 Verification
 
@@ -148,6 +154,7 @@ Research Timeline
     2026-03-24 05:58: SIREN v1.0 released (JPEG XL + PDF 2.0 + WASM)
     2026-03-24 06:23: SIREN v1.0 audio variant (FLAC + SSML + WASM)
     2026-03-25 04:18: SIREN v2.0 (Multi-format + Active probing + CVE integration)
+    2026-09-23: SIREN v3.0 (CVE-2026-32836 correction + precise PICTURE malloc PoC)
 
 Legal & Ethics
 
