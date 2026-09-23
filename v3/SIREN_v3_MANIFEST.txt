@@ -1,0 +1,67 @@
+SIREN POLYGLOT v3.0 - TECHNICAL MANIFEST
+═══════════════════════════════════════════════════════════════════════════════
+Timestamp: 2026-09-23
+Researcher: frankSx
+Classification: CORRECTIVE - Precise CVE-2026-32836 weaponization
+
+CVE PROFILE:
+────────────
+CVE:             CVE-2026-32836
+Component:       mackron/dr_libs dr_flac.h <= 0.13.3
+Function:        drflac__read_and_decode_metadata() (dr_flac.h:6750, :6772)
+CWE:             CWE-789 (Memory Allocation with Excessive Size Value)
+CVSS 4.0:        6.9  AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H
+Fix commits:     fefced4, 4f5a4cd, 663239a
+Credit:          Ana Kapulica (libFuzzer)
+References:      github.com/mackron/dr_libs/issues/298
+                 vulncheck.com/advisories/mackron-dr-libs-excessive-memory-
+                 allocation-in-picture-metadata-parsing
+
+ROOT CAUSE (one line):
+──────────────────────
+malloc(mimeLength + 1) executes BEFORE blockSizeRemaining is checked.
+Same for descriptionLength. Both fields are attacker-controlled BE uint32.
+
+FILE SPECIFICATIONS:
+────────────────────
+siren_v3_cve-2026-32836_minimal_78B.flac
+  Size: 78 bytes
+  Trigger: mimeLength = 0xFFFFFFFE @ offset 0x32
+  Effect: malloc(0xFFFFFFFF) ~ 4.00 GiB from a 78-byte file
+
+siren_v3.0.polyglot.flac
+  Size: 372 bytes
+  Layers: valid FLAC identity + adaptive SSML Vorbis carrier (v2 lineage)
+          + dual-stage PICTURE exhaustion (mime + description = ~8 GiB)
+
+GATE CONDITION:
+───────────────
+Only drflac_open_*_with_metadata() with non-NULL onMeta parses the PICTURE
+body (dr_flac.h:6728). Plain drflac_open_memory()/open_file() unaffected.
+This matches cover-art/thumbnail/multimodal-ingest code paths exactly.
+
+EDGE CASE:
+──────────
+mimeLength = 0xFFFFFFFF wraps +1 to 0 -> malloc(0). Use 0xFFFFFFFE.
+
+EXPECTED OUTCOMES:
+──────────────────
+Vulnerable + ASan : abort at dr_flac.h:6750, malloc(4294967295), full stack
+Vulnerable prod   : 4-8 GiB RSS spike per request -> OOM-kill -> DoS
+Patched           : bounds check first, open returns NULL, no allocation
+
+DIFFERENTIAL FROM v2.0:
+───────────────────────
+~ v2 modeled CVE-2026-32836 as PADDING-block O(n^2) recursive parsing
+  (WRONG - pre-disclosure speculation)
++ v3 targets the actual PICTURE mimeLength/descriptionLength pre-check
+  allocation (VERIFIED - issue #298, GDB + ASan confirmed)
++ dual-stage trigger (both length fields in one block)
++ 78-byte minimal reproducer included
++ vulnerable-target harness (siren_v3_harness.c) included
+
+LEGAL:
+──────
+Proof-of-concept for authorized security research and patch verification.
+Test only on systems you own or have explicit permission to test.
+═══════════════════════════════════════════════════════════════════════════════
