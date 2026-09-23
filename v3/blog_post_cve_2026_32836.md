@@ -1,9 +1,3 @@
----
-title: "SIREN v3.0 — Four Gigabytes from Seventy-Eight Bytes: Precisely Weaponizing CVE-2026-32836 in dr_flac"
-author: frankSx
-date: 2026-09-23
-tags: [CVE-2026-32836, dr_libs, FLAC, CWE-789, DoS, fuzzing, SIREN, parser-differential]
----
 
 # SIREN v3.0 — Four Gigabytes from Seventy-Eight Bytes
 
